@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Ordem</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url({{ wallpaper_link | default('https://wallpapercg.com/download/anonymous-hacker-5120x2880-22386.jpg') }});
+            background-size: cover;
+            background-position: mid-center;
+            background-attachment: fixed;
+        }
+        h1 {
+            color: #000;
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 65px;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, .5);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .form-container label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-container input[type="text"], .form-container input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: -100px;
+            border-radius: 5px;
+            border: 1px solid #000;
+            font-size: 16px;
+        }
+        .form-container input[type="text"]:focus, .form-container input[type="number"]:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+        .form-container button {
+            background-color: #000;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .form-container a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: black;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .form-container a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        // Função para aplicar o .title() nos campos de texto
+        function capitalizeFields() {
+            var fields = document.querySelectorAll('input[type="text"], input[type="number"]');
+            fields.forEach(function(field) {
+                field.value = field.value.split(' ').map(function(word) {
+                    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                }).join(' ');
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Cadastrar Ordem de Manutenção</h1>
+
+        <!-- Exibição da mensagem de erro ou sucesso -->
+        {% if message %}
+            <p class="error-message" style="color: red; text-align: center; font-weight: bold;">{{ message }}</p>
+        {% endif %}
+
+        <!-- Mensagem de sucesso -->
+        {% if success_message %}
+            <p style="color: green; font-weight: bold; margin-bottom: 20px; text-align: center">
+                {{ success_message }}
+            </p>
+        {% endif %}
+
+        <form action="{{ url_for('cadastrar') }}" method="POST" onsubmit="capitalizeFields()">
+            <label for="nome">Nome Completo:</label>
+            <input type="text" name="nome" id="nome" value="{{ request.form['nome'] if request.form.get('nome') else '' }}" required><br><br>
+
+            <label for="cpf">CPF (xxx xxx xxx xx):</label>
+            <input type="text" name="cpf" id="cpf" value="{{ request.form['cpf'] if request.form.get('cpf') else '' }}" required><br><br>
+
+            <label for="telefone">Telefone (xx x xxxx xxxx):</label>
+            <input type="text" name="telefone" id="telefone" value="{{ request.form['telefone'] if request.form.get('telefone') else '' }}" required><br><br>
+
+            <label for="cidade">Cidade:</label>
+            <input type="text" name="cidade" id="cidade" value="{{ request.form['cidade'] if request.form.get('cidade') else '' }}" required><br><br>
+
+            <label for="bairro">Bairro:</label>
+            <input type="text" name="bairro" id="bairro" value="{{ request.form['bairro'] if request.form.get('bairro') else '' }}" required><br><br>
+
+            <label for="rua">Rua:</label>
+            <input type="text" name="rua" id="rua" value="{{ request.form['rua'] if request.form.get('rua') else '' }}" required><br><br>
+
+            <label for="numero">Número:</label>
+            <input type="number" name="numero" id="numero" value="{{ request.form['numero'] if request.form.get('numero') else '' }}" required><br><br>
+
+            <label for="complemento">Complemento:</label>
+            <input type="text" name="complemento" id="complemento" value="{{ request.form['complemento'] if request.form.get('complemento') else '' }}"><br><br>
+
+            <label for="problema">Problema:</label>
+            <input type="text" name="problema" id="problema" value="{{ request.form['problema'] if request.form.get('problema') else '' }}"><br><br>
+
+            <button type="submit">Cadastrar Ordem</button>
+        </form>
+
+        <a href="{{ url_for('home') }}">Voltar ao menu principal</a>
+    </div>
+
+</body>
+</html>

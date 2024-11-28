@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostrar Demandas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{{ wallpaper_url | default("https://wallpapers.com/images/hd/64k-ultra-hd-hacker-facing-a-computer-elabojtxwkju3z9e.jpg") }}');
+            background-size: cover;
+            background-position: bottom;
+            background-attachment: fixed;
+            color: #fff;
+        }
+        h2 {
+            text-align: center;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin: 0;
+            padding: 20px 0;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            color: #fff; /* Garante que o texto seja sempre branco */
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.1); /* Fundo claro para contraste */
+        }
+        tr:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo mais escuro */
+        }
+        tr:hover {
+            background-color: #333; /* Destaque ao passar o mouse */
+        }
+        p {
+            text-align: center;
+            margin-top: 20px;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Demandas de Manutenção</h2>
+
+    {% if ordens %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Problema</th>
+                    <th>Endereço</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id, ordem in ordens.items() %}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>{{ ordem['nome'] }}</td>
+                        <td>{{ ordem['cpf'] }}</td>
+                        <td>{{ ordem['telefone'] }}</td>
+                        <td>{{ ordem['solicitacao']['problema'] }}</td>
+                        <td>{{ ordem['endereco']['rua'] }}, {{ ordem['endereco']['numero'] }} - {{ ordem['endereco']['bairro'] }}, {{ ordem['endereco']['cidade'] }}</td>
+                        <td>{{ ordem['solicitacao']['status'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhuma demanda registrada ainda.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('home') }}">Voltar para a página inicial</a></p>
+</body>
+</html>

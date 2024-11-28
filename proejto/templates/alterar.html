@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Alterar Ordem</title>
+</head>
+<body>
+    <h1>Alterar Ordem de Manutenção</h1>
+    <form method="POST">
+        <label for="protocolo">Protocolo:</label>
+        <input type="text" name="protocolo" required><br>
+
+        <h2>Escolha uma opção:</h2>
+        <button type="submit" name="dar_andamento">Dar Andamento</button>
+        <button type="submit" name="concluir">Concluir Ordem</button>
+    </form>
+    <br>
+    <a href="{{ url_for('home') }}">Voltar à Página Inicial</a>
+</body>
+</html>

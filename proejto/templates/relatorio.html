@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Ordens de Manutenção</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://4kwallpapers.com/images/wallpapers/anonymous-hacker-data-breach-5k-3840x2160-7.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            text-align: center;
+        }
+        h2 {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px 0;
+            margin-top: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            font-size: 1.2rem;
+            padding: 10px 0;
+            margin: 5px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        a:hover {
+            background-color: #000;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.6); /* Translucent background */
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Relatório de Ordens de Manutenção</h2>
+
+        <p><strong>Total de ordens cadastradas:</strong> {{ total_ordens }}</p>
+        <p><strong>Porcentagem de ordens pendentes:</strong> {{ porcentagem_pendentes }}%</p>
+        <p><strong>Porcentagem de ordens em andamento:</strong> {{ porcentagem_em_andamento }}%</p>
+        <p><strong>Porcentagem de ordens concluídas:</strong> {{ porcentagem_concluidas }}%</p>
+
+        <h3>Quantidade de Ordens por Líder de Equipe</h3>
+        <ul>
+            {% for lider, quantidade in ordens_por_lider.items() %}
+                <li>{{ lider.title() }}: {{ quantidade }} ordens</li>
+            {% endfor %}
+        </ul>
+
+        <p><a href="{{ url_for('home') }}">Voltar para a página inicial</a></p>
+    </div>
+
+</body>
+</html>

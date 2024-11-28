@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Demanda</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://img.odcdn.com.br/wp-content/uploads/2024/08/DALL%C2%B7E-2024-08-14-14.11.58-A-dramatic-image-showing-a-dark-shadowy-figure-of-a-hacker-in-a-hoodie-sitting-behind-a-laptop.-The-figure-is-mostly-obscured-with-only-the-silhouet.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-top: 0;
+            color: #fff;
+        }
+
+        .message {
+            background-color: #4CAF50; /* Cor verde para sucesso */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            border-radius: 5px;
+            animation: fadeOut 10s forwards; /* Aplica o efeito de fadeOut */
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px; /* Ajuste o padding para reduzir a altura do fundo escuro */
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #000;
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            color: #fff;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            margin-bottom: 20px; /* Aumenta o espaço entre o texto e o fim da página */
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0; /* Remove a margem da lista */
+        }
+
+        li {
+            background-color: rgba(0, 0, 0, 0.6);
+            margin: 10px 0;
+            padding: 1px; /* Aumente o padding para aumentar a altura do fundo */
+            border-radius: 5px;
+            font-size: 1.1em;
+            border: 1px solid #fff; /* Adicionando borda para a espessura do fundo */
+        }
+
+        li a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alterar Demanda de Manutenção</h1>
+
+    {% if message %}
+        <div class="message" id="successMessage">{{ message }}</div> <!-- Mensagem de sucesso estilizada -->
+        <script>
+            // Espera 5 segundos (5000ms) e depois esconde a mensagem
+            setTimeout(function() {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000); // Tempo em milissegundos (5000ms = 5 segundos)
+        </script>
+    {% endif %}
+
+    <form action="{{ url_for('alterar_demandas') }}" method="POST">
+        <label for="id_ordem">ID da Ordem:</label>
+        <input type="number" name="id_ordem" id="id_ordem" required><br><br>
+
+        <label for="status">Novo Status:</label>
+        <select name="status" id="status">
+            <option value="Pendente">Pendente</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Concluída">Concluída</option>
+        </select><br><br>
+
+        <label for="servico">Serviço prestado:</label>
+        <input type="text" name="servico" id="servico"><br><br>
+
+        <label for="lider_equipe">Nome do Líder de Equipe:</label>
+        <input type="text" name="lider_equipe" id="lider_equipe"><br><br>
+
+        <button type="submit">Alterar Demanda</button>
+    </form>
+
+    <h2>Demandas Existentes:</h2>
+    {% if ordens %}
+        <ul>
+            {% for id, ordem in ordens.items() %}
+                <li>ID: {{ id }} - Solicitante: {{ ordem['nome'] }} - Status: {{ ordem['solicitacao']['status'] }}
+                    {% if ordem['endereco'].get('coordenadas') %}
+                        <a href="{{ url_for('abrir_mapa', id_ordem=id) }}" target="_blank">
+                            <button>Abrir no Google Maps</button>
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhuma demanda registrada.</p>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}">Voltar ao menu principal</a>
+</body>
+</html>
